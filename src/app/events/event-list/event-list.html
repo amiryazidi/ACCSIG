@@ -1,0 +1,235 @@
+
+<div class="container mt-4">
+
+  <!-- Titre -->
+  <h2 class="text-center text-primary mb-4">
+    Événements
+  </h2>
+
+  <button [routerLink]="['add']" class="btn btn-success">
+    Ajouter un événement
+  </button>
+
+
+  <!-- ===================== -->
+  <!-- FILTRES -->
+  <!-- ===================== -->
+
+  <div class="card shadow-sm mb-4">
+
+    <div class="card-header">
+      <strong>🔎 Rechercher un événement</strong>
+    </div>
+
+    <div class="card-body">
+
+      <div class="row g-3">
+
+        <!-- Recherche -->
+        <div class="col-md-4">
+
+          <label class="form-label">
+            Titre ou adresse
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            [ngModel]="searchText()"
+            (ngModelChange)="searchText.set($event)"
+            placeholder="Titre ou adresse..."
+          >
+
+        </div>
+
+
+        <!-- Prix maximum -->
+        <div class="col-md-3">
+
+          <label class="form-label">
+            Prix maximum
+          </label>
+
+          <input
+            type="number"
+            class="form-control"
+            [ngModel]="maxPrice()"
+            (ngModelChange)="maxPrice.set($event)"
+            placeholder="Prix max"
+          >
+
+        </div>
+
+
+        <!-- Date -->
+        <div class="col-md-3">
+
+          <label class="form-label">
+            À partir du
+          </label>
+
+          <input
+            type="date"
+            class="form-control"
+            [ngModel]="fromDate()"
+            (ngModelChange)="fromDate.set($event)"
+          >
+
+        </div>
+
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ===================== -->
+  <!-- LISTE DES EVENEMENTS -->
+  <!-- ===================== -->
+
+  <div class="row g-4">
+
+    @for (e of eventsConsom(); track e.id) {
+
+      <div class="col-md-6 col-lg-4">
+
+        <div class="card h-100 shadow-sm">
+
+          <!-- Header -->
+          <div class="card-header">
+
+            <h5 class="mb-0">
+              {{ e.title }}
+            </h5>
+
+          </div>
+
+
+          <!-- Contenu -->
+          <div class="card-body">
+
+            <p class="card-text">
+              📍 <strong>Lieu :</strong>
+              {{ e.location }}
+            </p>
+
+
+            <p class="card-text">
+              📅 <strong>Date :</strong>
+              {{ e.date }}
+            </p>
+
+
+            <p class="card-text">
+              💰 <strong>Prix :</strong>
+
+              @if (e.price === 0) {
+
+                <span class="badge bg-success">
+                  Gratuit
+                </span>
+
+              } @else {
+
+                <span class="badge bg-primary">
+                  {{ e.price }} DT
+                </span>
+
+              }
+
+            </p>
+
+
+            <p class="card-text">
+
+              🎟 <strong>Places :</strong>
+
+              @if (e.nbPlaces === 0) {
+
+                <span class="badge bg-danger">
+                  Complet
+                </span>
+
+              } @else if (e.nbPlaces <= 5) {
+
+                <span class="badge bg-warning text-dark">
+                  Plus que {{ e.nbPlaces }} places
+                </span>
+
+              } @else {
+
+                <span class="badge bg-success">
+                  {{ e.nbPlaces }} places disponibles
+                </span>
+
+              }
+
+            </p>
+
+          </div>
+
+
+          <!-- Bouton -->
+          <div class="card-footer bg-white">
+
+            <button
+              class="btn btn-primary w-100"
+              [disabled]="e.nbPlaces === 0">
+
+              🎟 Réserver
+
+            </button>
+
+            <button
+              class="btn btn-secondary w-100"
+              [routerLink]="['/detail',e.id]">
+
+              🎟 Detail
+
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    } @empty {
+
+      <div class="col-12">
+
+        <div class="alert alert-warning text-center">
+
+          ⚠️ Aucun événement trouvé.
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+
+  <!-- ===================== -->
+  <!-- RESET GENERAL -->
+  <!-- ===================== -->
+
+  <div class="text-center mt-4 mb-4">
+
+    <button
+      class="btn btn-outline-danger">
+
+      ↺ Réinitialiser
+
+    </button>
+
+  </div>
+
+</div>
+
+

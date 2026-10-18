@@ -1,0 +1,16 @@
+<p>event-detail works!</p>
+
+  @if ( event; as e) {
+    <h2>{{e.title}}</h2>
+    <p>{{e.location}} - {{e.date}}</p>
+    <p>{{e.price ===0 ? 'Gratuit' : e.price + 'DT'}} </p>
+  }@else {
+    <p>
+       Evenement introuvable pour l'identifiant {{id}}
+    </p>
+
+      <button (click)="backToList()">← Retour au catalogue</button>
+<button (click)="goToFirstEvent()">Aller au premier événement</button>
+
+  }
+

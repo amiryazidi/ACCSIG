@@ -1,0 +1,156 @@
+<div class="container mt-4">
+
+  <!-- Titre -->
+  <h1 class="text-center text-primary mb-3">
+    {{ title() | uppercase }}
+  </h1>
+
+  <!-- Nombre de produits -->
+  <p class="text-center text-muted">
+    {{ products().length }} produits au catalogue
+  </p>
+
+  <!-- Recherche -->
+  <div class="mb-4">
+    <label class="form-label">Rechercher un produit</label>
+
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search by name..."
+      [(ngModel)]="searchProduct"
+    >
+
+    <small class="text-muted">
+      Recherche : {{ searchProduct() }}
+    </small>
+  </div>
+
+
+  <!-- Vérification de la liste -->
+  @if(products().length != 0) {
+
+    <div class="row g-4">
+
+      @for(p of searchByName(); track p.id) {
+
+        <!-- Une colonne par produit -->
+        <div class="col-md-6 col-lg-4">
+
+          <div class="card h-100 shadow-sm">
+
+            <!-- Image -->
+            <img
+              [src]="imageUrl()"
+              class="card-img-top"
+              alt="image produit"
+              style="height: 200px; object-fit: contain;"
+            >
+
+            <!-- Contenu -->
+            <div class="card-body">
+
+              <h5 class="card-title">
+                {{ p.name | uppercase }}
+              </h5>
+
+              <p class="card-text">
+                Prix :
+                <strong>
+                  {{ p.price | currency:'EUR' }}
+                </strong>
+              </p>
+
+
+              <!-- Quantité -->
+              <p>
+                Quantité :
+
+                @if(p.quantity === 0) {
+
+                  <span class="badge bg-danger">
+                    Rupture de stock
+                  </span>
+
+                } @else if(p.quantity <= 3) {
+
+                  <span class="badge bg-warning text-dark">
+                    {{ p.quantity }} - Stock faible
+                  </span>
+
+                } @else {
+
+                  <span class="badge bg-success">
+                    {{ p.quantity }} en stock
+                  </span>
+
+                }
+
+              </p>
+
+
+              <!-- Likes -->
+              <p>
+                Likes :
+                <span class="badge bg-primary">
+                  {{ p.likes }}
+                </span>
+              </p>
+
+
+              <!-- Valeur du stock -->
+              <p>
+                Valeur du stock :
+                <strong>{{ stockValue(p) }} DT</strong>
+              </p>
+
+            </div>
+
+
+            <!-- Boutons -->
+            <div class="card-footer bg-white">
+
+              <div class="d-flex gap-2">
+
+                <button
+                  class="btn btn-success"
+                  (click)="like(p.id)">
+                  👍 Like
+                </button>
+
+                <button
+                  class="btn btn-danger"
+                  (click)="dislike(p.id)"
+                  [disabled]="p.quantity === 0">
+                  👎 Dislike
+                </button>
+
+                <button
+                  class="btn btn-primary"
+                  (click)="buy(p.id)"
+                  [disabled]="p.quantity === 0">
+                  Acheter
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  } @else {
+
+    <!-- Liste vide -->
+    <div class="alert alert-warning text-center">
+      La liste des produits est vide.
+    </div>
+
+  }
+
+</div>

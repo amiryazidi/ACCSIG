@@ -1,0 +1,50 @@
+<h2>formGroup</h2>
+
+<form [formGroup]="eventForm">
+  <div class="form-group">
+    <label for="title">Titre</label>
+    <input type="text" class="form-control" id="title" formControlName="title">
+  </div>
+  <div class="form-group">
+    <label for="location">Lieu</label>
+    <input type="text" class="form-control" id="location" formControlName="location">
+  </div>
+
+</form>
+
+
+<hr>
+<h2>formBuilder</h2>
+
+<form [formGroup]="eventFormB">
+  <div class="form-group">
+    <label for="title">Titre</label>
+    <input type="text" class="form-control" id="title" formControlName="title">
+    @if (title?.invalid && title?.touched) {
+      <div class="text-danger">
+        Le titre est requis.
+      </div>
+    }
+  </div>
+  <div class="form-group">
+    <label for="location">Lieu</label>
+    <input type="text" class="form-control" id="location" formControlName="location">
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input type="text" class="form-control" id="description" formControlName="description">
+  </div>
+  <div class="form-group">
+    <label for="date">Date</label>
+    <input type="date" class="form-control" id="date" formControlName="date">
+  </div>
+  <div class="form-group">
+    <label for="price">Prix</label>
+    <input type="number" class="form-control" id="price" formControlName="price">
+  </div>
+  <div class="form-group">
+    <label for="nbPlaces">Nombre de places</label>
+    <input type="number" class="form-control" id="nbPlaces" formControlName="nbPlaces">
+  </div>
+
+  <button type="submit" (click)="save()" [disabled]="eventFormB.invalid"  class="btn btn-primary">Ajouter</button>
